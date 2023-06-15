@@ -1,0 +1,9 @@
+.cat-image img {
+    width: 500px;
+}
+
+.image-wrapper {
+    max-width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
