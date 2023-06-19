@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./home.css"
 
 function Home() {
-  const [data, setData] = useState();
+  const [breedData, setBreedData] = useState();
   const [keyword, setKeyword] = useState("");
   const navigate = useNavigate();
   const goToBreed = (catBreedObj) => {
@@ -17,7 +17,7 @@ function Home() {
   useEffect(() => {
     fetch("/api/breeds")
       .then((res) => res.json())
-      .then((data) => setData(data));
+      .then((data) => setBreedData(data));
   }, []);
 
 
@@ -29,9 +29,9 @@ function Home() {
       <div className="search-box-wrapper">
         <p>Start typing a cat breed, and Select from the list below</p>
         <input className="search-box" type="text" name="search" value={keyword} onChange={search} />
-        {(data && keyword) ?
+        {breedData && (keyword ?
           <ul>
-            {data.map((catBreedObj, index) =>
+            {breedData.breeds.map((catBreedObj, index) =>
               catBreedObj.name.toLowerCase().indexOf(keyword.toLowerCase()) !== -1 && (
                 <li key={index}>
                   <a onClick={() => goToBreed(catBreedObj)} href="">{catBreedObj.name}</a>
@@ -39,7 +39,13 @@ function Home() {
               )
             )}
           </ul> :
-          <div>No result</div>}
+          <div>
+            <div>favBreeds:</div>
+            <ul>
+              {breedData.favBreeds.map((breed, index) =>
+                <li key={index}>{breed.id}: {breed.clickCount}</li>)}
+            </ul>
+          </div>)}
 
       </div>
 

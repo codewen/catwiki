@@ -1,11 +1,18 @@
 const path = require('path');
 const express = require("express");
+const dotenv = require("dotenv");
 const { getAllBreeds, getBreedById, getBreedImageById } = require("./api");
-require("./database");
+
+
+
+//load environment
+dotenv.config();
+const { initDatabase } = require("./database");
 
 const PORT = process.env.PORT || 3001;
 
 const app = express();
+initDatabase();
 
 // Have Node serve the files for our built React app
 app.use(express.static(path.resolve(__dirname, '../client/build')));
@@ -15,7 +22,6 @@ app.get("/api", (req, res) => {
 });
 
 app.get("/api/breeds", async (req, res) => {
-  console.log("breadks called");
   res.json(await getAllBreeds());
 });
 
